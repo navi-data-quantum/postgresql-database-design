@@ -36,7 +36,7 @@ VALUES
 INSERT INTO employees (
     id,
     organization_id,
-    full_name,
+    name,
     email
 )
 VALUES
@@ -58,8 +58,8 @@ INSERT INTO bookings (
     user_id,
     service_id,
     employee_id,
-    starts_at,
-    ends_at,
+    start_time,
+    end_time,
     status
 )
 VALUES
