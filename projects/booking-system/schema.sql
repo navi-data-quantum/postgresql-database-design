@@ -41,7 +41,7 @@ CREATE TABLE services (
 CREATE TABLE employees (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-    full_name VARCHAR(150) NOT NULL,
+    name VARCHAR(150) NOT NULL,
     email VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     UNIQUE (organization_id, email)
@@ -52,11 +52,11 @@ CREATE TABLE bookings (
     user_id UUID NOT NULL REFERENCES users(id),
     service_id UUID NOT NULL REFERENCES services(id),
     employee_id UUID REFERENCES employees(id),
-    starts_at TIMESTAMPTZ NOT NULL,
-    ends_at TIMESTAMPTZ NOT NULL,
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ NOT NULL,
     status booking_status NOT NULL DEFAULT 'pending',
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    CHECK (ends_at > starts_at)
+    CHECK (end_time > start_time)
 );
 
 CREATE TABLE payments (
@@ -82,7 +82,7 @@ CREATE INDEX idx_bookings_service_id
     ON bookings (service_id);
 
 CREATE INDEX idx_bookings_employee_schedule
-    ON bookings (employee_id, starts_at, ends_at);
+    ON bookings (employee_id, start_time, end_time);
 
 CREATE INDEX idx_bookings_status
     ON bookings (status);
